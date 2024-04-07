@@ -42,7 +42,7 @@ public class VehicleController {
         }
     }
 
-    @GetMapping("/search/by-registration/{registration}")
+    @GetMapping("/search/registration/{registration}")
     public ResponseEntity<Vehicle> getVehicleByRegistration(@PathVariable String registration) {
         Vehicle vehicle = vehicleService.findByRegistration(registration);
         if (vehicle != null) {
@@ -52,7 +52,7 @@ public class VehicleController {
         }
     }
 
-    @GetMapping("/search/by-chassis-number/{chassisNumber}")
+    @GetMapping("/search/chassis/{chassisNumber}")
     public ResponseEntity<Vehicle> getVehicleByChassisNumber(@PathVariable String chassisNumber) {
         Vehicle vehicle = vehicleService.findByChassisNumber(chassisNumber);
         if (vehicle != null) {

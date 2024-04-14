@@ -41,20 +41,12 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void save(Vehicle vehicle) {
-        List<Vehicle> vehicles = vehicleRepository.findAll();
-        vehicles.add(vehicle);
+        List<Vehicle> vehicles = vehicleRepository.save(vehicle);
     }
 
     @Override
-    public boolean deleteByRegistration(String registration) {
-        List<Vehicle> vehicles = vehicleRepository.findAll();
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.getRegistration().equals(registration)) {
-                vehicles.remove(vehicle);
-                return true;
-            }
-        }
-        return false;
+    public boolean deleteByRegistration(Vehicle vehicle) {
+        return vehicleRepository.delete(vehicle);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public class VehicleRepositoryImpl implements VehicleRepository{
-    private final List<Vehicle> vozilaList;
+    private List<Vehicle> vozilaList;
     public VehicleRepositoryImpl() {
         vozilaList = new ArrayList<>();
 
@@ -32,4 +32,17 @@ public class VehicleRepositoryImpl implements VehicleRepository{
                 .filter(vozilo -> vozilo.getVehicleCode().equals(code))
                 .findFirst();
     }
+
+    @Override
+    public List<Vehicle> save(Vehicle vehicle) {
+        vozilaList.add(vehicle);
+        return  vozilaList;
+    }
+
+    @Override
+    public boolean delete(Vehicle vehicle) {
+        return vozilaList.remove(vehicle);
+    }
+
+
 }

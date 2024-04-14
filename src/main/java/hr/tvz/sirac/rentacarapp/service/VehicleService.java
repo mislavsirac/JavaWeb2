@@ -10,7 +10,7 @@ public interface VehicleService {
     VehicleDTO findVehicleByCode(String code);
     boolean checkForDuplicate(Vehicle vehicle);
     void save(Vehicle vehicle);
-    boolean deleteByRegistration(String registration);
+    boolean deleteByRegistration(Vehicle vehicle);
     Vehicle findByRegistration(String registration);
     Vehicle findByChassisNumber(String chassisNumber);
 }

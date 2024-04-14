@@ -8,4 +8,7 @@ import java.util.Optional;
 public interface VehicleRepository {
     List<Vehicle> findAll();
     Optional<Vehicle> findVehicleByCode(String code);
+    List<Vehicle> save(Vehicle vehicle);
+
+    boolean delete(Vehicle vehicle);
 }

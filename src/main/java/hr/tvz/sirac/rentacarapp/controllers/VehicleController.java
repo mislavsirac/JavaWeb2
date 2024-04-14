@@ -1,6 +1,7 @@
 package hr.tvz.sirac.rentacarapp.controllers;
 
 import hr.tvz.sirac.rentacarapp.models.Vehicle;
+import hr.tvz.sirac.rentacarapp.models.VehicleCommand;
 import hr.tvz.sirac.rentacarapp.models.VehicleDTO;
 import hr.tvz.sirac.rentacarapp.service.VehicleService;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/vehicles") // Base path for all handlers in this controller
 public class VehicleController {
 
@@ -63,7 +65,21 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addVehicle(@Valid @RequestBody Vehicle vehicle) {
+    public ResponseEntity<String> addVehicle(@Valid @RequestBody VehicleCommand validVehicleCommand) {
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setVehicleCode(validVehicleCommand.getVehicleCode());
+        vehicle.setMaxNumberOfPassengers(validVehicleCommand.getMaxNumberOfPassengers());
+        vehicle.setTransmission(validVehicleCommand.getTransmission());
+        vehicle.setAirConditioning(validVehicleCommand.getAirConditioning());
+        vehicle.setNumberOfDoors(validVehicleCommand.getNumberOfDoors());
+        vehicle.setFuelType(validVehicleCommand.getFuelType());
+        vehicle.setLastServiceDate(validVehicleCommand.getLastServiceDate());
+        vehicle.setNextServiceDate(validVehicleCommand.getNextServiceDate());
+        vehicle.setMileage(validVehicleCommand.getMileage());
+        vehicle.setRegistration(validVehicleCommand.getRegistration());
+        vehicle.setChassisNumber(validVehicleCommand.getChassisNumber());
+
         boolean isDuplicate = vehicleService.checkForDuplicate(vehicle);
         if (isDuplicate) {
             return new ResponseEntity<>("Duplicate vehicle found (same registration or chassis number).", HttpStatus.CONFLICT);
@@ -75,7 +91,8 @@ public class VehicleController {
 
     @DeleteMapping("/{registration}")
     public ResponseEntity<?> deleteVehicleByRegistration(@PathVariable String registration) {
-        boolean isDeleted = vehicleService.deleteByRegistration(registration);
+        var vehicle = vehicleService.findByRegistration(registration);
+        boolean isDeleted = vehicleService.deleteByRegistration(vehicle);
         if (isDeleted) {
             return ResponseEntity.ok().build();
         } else {
